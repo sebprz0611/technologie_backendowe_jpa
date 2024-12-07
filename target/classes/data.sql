@@ -69,29 +69,3 @@ INSERT INTO medical_treatment (id, description, type, visit_id) VALUES
 (9, 'Badanie onkologiczne', 'Badanie', 9),
 (10, 'Porada dermatologiczna', 'Konsultacja', 10);
 
-
-INSERT INTO doctor_visits (doctor_entity_id, visits_id) VALUES
-(2, 1),
-(8, 2),
-(7, 3),
-(9, 4),
-(2, 5),
-(5, 6),
-(4, 7),
-(6, 8),
-(1, 9),
-(3, 10);
-
-INSERT INTO patient_visits (patient_entity_id, visits_id) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(1, 5),
-(6, 6),
-(5, 7),
-(8, 8),
-(9, 9),
-(10, 10);
-
-

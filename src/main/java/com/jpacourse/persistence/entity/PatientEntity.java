@@ -35,7 +35,7 @@ public class PatientEntity {
 	private AddressEntity address;
 
 	// Dwukierunkowa relacja Patient i Visit
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "patient", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private Collection<VisitEntity> visits;
 
 	// Gettery i settery
