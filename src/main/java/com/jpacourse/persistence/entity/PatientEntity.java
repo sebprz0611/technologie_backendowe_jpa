@@ -29,6 +29,10 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
+	@Column(nullable = true)
+	private Integer weight;
+
+
 	// Jednokierunkowa relacja z Patient do Address ( rodzic )
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "address_id")
@@ -37,6 +41,7 @@ public class PatientEntity {
 	// Dwukierunkowa relacja Patient i Visit
 	@OneToMany(mappedBy = "patient", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private Collection<VisitEntity> visits;
+
 
 	// Gettery i settery
 	public Long getId() {
@@ -115,5 +120,13 @@ public class PatientEntity {
 	public void removeVisit(VisitEntity visit) {
 		visits.remove(visit);
 		visit.setPatient(null);
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 }

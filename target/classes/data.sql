@@ -33,17 +33,17 @@ INSERT INTO doctor (id, first_name, last_name, telephone_number, email, doctor_n
 (9, 'Ludwik', 'Kwiatkowski', '+48 709 994 321', 'ludwik.kwiatkowski@poczta.pl', 'D009', 'Psychiatra', 15),
 (10, 'Dorota', 'Szulc', '+48 741 295 384', 'dorota.szulc@interia.pl', 'D010', 'Dermatologia', 2);
 
-INSERT INTO patient (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, address_id) VALUES
-(1, 'Mariusz', 'Makowski', '+48 603 741 812', 'mariuszmakowski@tlen.pl', 'P001', '1982-04-15', 1),
-(2, 'Ewa', 'Rogalska', '+48 742 366 441', 'ewa.rogalska@wp.pl', 'P002', '1990-07-23', 7),
-(3, 'Patryk', 'Jankowski', '+48 603 512 764', 'patryk.jankowski@protonmail.com', 'P003', '1980-02-05', 14),
-(4, 'Barbara', 'Kaczmarek', '+48 752 800 091', 'barbara.kaczmarek@tlen.pl', 'P004', '1985-12-30', 20),
-(5, 'Marek', 'Borkowski', '+48 767 412 690', 'marek.borkowski@poczta.pl', 'P005', '1992-10-01', 8),
-(6, 'Aneta', 'Szewczyk', '+48 732 516 413', 'aneta.szewczyk@poczta.pl', 'P006', '1996-05-21', 13),
-(7, 'Wojciech', 'Wysocki', '+48 791 453 968', 'wojciech.wysocki@protonmail.com', 'P007', '1987-08-16', 5),
-(8, 'Zuzanna', 'Tomaszewska', '+48 711 614 821', 'zuzanna.tomaszewska@outlook.com', 'P008', '1993-12-18', 12),
-(9, 'Jakub', 'Sienkiewicz', '+48 727 539 112', 'jakub.sienkiewicz@icloud.com', 'P009', '1981-03-04', 16),
-(10, 'Katarzyna', 'Pietrzak', '+48 752 899 623', 'katarzyna.pietrzak@icloud.com', 'P010', '1995-11-25', 18);
+INSERT INTO patient (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, address_id, weight) VALUES
+(1, 'Mariusz', 'Makowski', '+48 603 741 812', 'mariuszmakowski@tlen.pl', 'P001', '1982-04-15', 1, 75),
+(2, 'Ewa', 'Rogalska', '+48 742 366 441', 'ewa.rogalska@wp.pl', 'P002', '1990-07-23', 7, 65),
+(3, 'Patryk', 'Jankowski', '+48 603 512 764', 'patryk.jankowski@protonmail.com', 'P003', '1980-02-05', 14, 90),
+(4, 'Barbara', 'Kaczmarek', '+48 752 800 091', 'barbara.kaczmarek@tlen.pl', 'P004', '1985-12-30', 20, 68),
+(5, 'Marek', 'Borkowski', '+48 767 412 690', 'marek.borkowski@poczta.pl', 'P005', '1992-10-01', 8, 82),
+(6, 'Aneta', 'Szewczyk', '+48 732 516 413', 'aneta.szewczyk@poczta.pl', 'P006', '1996-05-21', 13, 70),
+(7, 'Wojciech', 'Wysocki', '+48 791 453 968', 'wojciech.wysocki@protonmail.com', 'P007', '1987-08-16', 5, 95),
+(8, 'Zuzanna', 'Tomaszewska', '+48 711 614 821', 'zuzanna.tomaszewska@outlook.com', 'P008', '1993-12-18', 12, 58),
+(9, 'Jakub', 'Sienkiewicz', '+48 727 539 112', 'jakub.sienkiewicz@icloud.com', 'P009', '1981-03-04', 16, 77),
+(10, 'Katarzyna', 'Pietrzak', '+48 752 899 623', 'katarzyna.pietrzak@icloud.com', 'P010', '1995-11-25', 18, 60);
 
 INSERT INTO visit (id, description, time, doctor_id, patient_id) VALUES
 (1, 'Wizyta Stacjonarna', '2024-12-02 14:00:00', 2, 1),
