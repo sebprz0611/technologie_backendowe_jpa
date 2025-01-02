@@ -60,7 +60,7 @@ INSERT INTO visit (id, description, time, doctor_id, patient_id) VALUES
 INSERT INTO medical_treatment (id, description, type, visit_id) VALUES
 (1, 'Kontrola kardiologiczna', 'Badanie', 1),
 (2, 'Chirurgia urazowa', 'Operacja', 2),
-(3, 'Leczenie ran', 'Opieka medyczna', 3),
+(3, 'Leczenie ran', 'Opieka_medyczna', 3),
 (4, 'Psychoterapia', 'Konsultacja', 4),
 (5, 'Badanie kardiologiczne', 'Badanie', 5),
 (6, 'Konsultacja ortopedyczna', 'Konsultacja', 6),
