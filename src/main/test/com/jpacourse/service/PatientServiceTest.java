@@ -62,14 +62,14 @@ public class PatientServiceTest {
         // then
         assertThat(patientTO).isNotNull();
         assertThat(patientTO.getId()).isEqualTo(patientId);
-        assertThat(patientTO.getFirstName()).isEqualTo("Mariusz"); // Dostosuj dane do testowej bazy
+        assertThat(patientTO.getFirstName()).isEqualTo("Mariusz");
         assertThat(patientTO.getLastName()).isEqualTo("Makowski");
-        assertThat(patientTO.getWeight()).isEqualTo(75); // Sprawdzenie dodatkowego pola
+        assertThat(patientTO.getWeight()).isEqualTo(75);
 
         // Weryfikacja wizyt
         List<VisitTO> visits = patientTO.getVisits();
         assertThat(visits).isNotEmpty();
-        assertThat(visits).hasSize(2); // Dostosuj do danych testowych
+        assertThat(visits).hasSize(2); //
 
         VisitTO firstVisit = visits.get(0);
         assertThat(firstVisit.getTime()).isEqualTo(LocalDateTime.of(2024, 12, 2, 14, 0));
