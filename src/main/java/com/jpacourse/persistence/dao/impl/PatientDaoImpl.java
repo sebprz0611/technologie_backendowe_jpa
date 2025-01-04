@@ -1,43 +1,49 @@
 package com.jpacourse.persistence.dao.impl;
 
-import com.jpacourse.persistence.dao.PatientDaoCustom;
+import com.jpacourse.persistence.dao.DoctorDao;
+import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
+import com.jpacourse.rest.exception.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Repository
-public class PatientDaoImpl implements PatientDaoCustom {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao
+{
+    @Autowired
+    DoctorDao doctorDao;
 
     @Override
-    @Transactional
-    public void addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitTime, String visitDescription) {
-        PatientEntity patient = entityManager.find(PatientEntity.class, patientId);
-        DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
+    public void customSavePatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription) {
+        PatientEntity patientEntity = findOne(patientId);
 
-        if (patient == null) {
-            throw new IllegalArgumentException("Patient with ID " + patientId + " not found");
-        }
-        if (doctor == null) {
-            throw new IllegalArgumentException("Doctor with ID " + doctorId + " not found");
+        if (patientEntity == null) {
+            throw new EntityNotFoundException(patientId);
         }
 
-        VisitEntity newVisit = new VisitEntity();
-        newVisit.setPatient(patient);
-        newVisit.setDoctor(doctor);
-        newVisit.setTime(visitTime);
-        newVisit.setDescription(visitDescription);
+        DoctorEntity doctorEntity = doctorDao.findOne(doctorId);
 
-        patient.getVisits().add(newVisit);
-        entityManager.merge(patient);
+        if(doctorEntity == null)  {
+            throw new EntityNotFoundException(doctorId);
+        }
+
+        VisitEntity visit = new VisitEntity();
+        visit.setDoctor(doctorEntity);
+        visit.setPatient(patientEntity);
+        visit.setTime(visitDate);
+        visit.setDescription(visitDescription);
+
+        if(patientEntity.getVisits() == null) {
+            patientEntity.setVisits(new ArrayList<>());
+        }
+
+        patientEntity.getVisits().add(visit);
+
+        update(patientEntity);
     }
 }
-

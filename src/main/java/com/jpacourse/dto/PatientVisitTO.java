@@ -1,18 +1,21 @@
 package com.jpacourse.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collection;
 
-public class VisitTO {
-
+public class PatientVisitTO implements Serializable {
     private Long id;
-    private LocalDateTime time;
-    private String doctorFirstName;
-    private String doctorLastName;
-    private List<String> treatmentTypes;
-    private Long patientId;
 
-    // Gettery i settery
+    private LocalDateTime time;
+
+    private String doctorFirstName;
+
+    private String doctorLastName;
+
+    private Collection<MedicalTreatmentTO> medicalTreatments;
+
+
     public Long getId() {
         return id;
     }
@@ -45,19 +48,12 @@ public class VisitTO {
         this.doctorLastName = doctorLastName;
     }
 
-    public List<String> getTreatmentTypes() {
-        return treatmentTypes;
+    public Collection<MedicalTreatmentTO> getMedicalTreatments() {
+        return medicalTreatments;
     }
 
-    public void setTreatmentTypes(List<String> treatmentTypes) {
-        this.treatmentTypes = treatmentTypes;
+    public void setMedicalTreatments(Collection<MedicalTreatmentTO> medicalTreatments) {
+        this.medicalTreatments = medicalTreatments;
     }
 
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
 }

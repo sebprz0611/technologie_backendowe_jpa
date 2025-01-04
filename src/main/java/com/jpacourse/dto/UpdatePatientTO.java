@@ -1,12 +1,9 @@
 package com.jpacourse.dto;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collection;
 
-public class PatientTO implements Serializable {
+public class UpdatePatientTO {
     private Long id;
-
     private String firstName;
 
     private String lastName;
@@ -23,15 +20,6 @@ public class PatientTO implements Serializable {
 
     private AddressTO address;
 
-    private Collection<PatientVisitTO> visits;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -73,12 +61,12 @@ public class PatientTO implements Serializable {
         this.patientNumber = patientNumber;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public Integer getWeight() {
+        return weight;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public AddressTO getAddress() {
@@ -89,16 +77,19 @@ public class PatientTO implements Serializable {
         this.address = address;
     }
 
-    public Collection<PatientVisitTO> getVisits() {
-        return visits;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setVisits(Collection<PatientVisitTO> visits) {
-        this.visits = visits;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getWeight() { return weight;	}
+    public Long getId() {
+        return id;
+    }
 
-    public void setWeight(Integer weight) { this.weight = weight; }
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

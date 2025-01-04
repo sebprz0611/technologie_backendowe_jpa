@@ -22,6 +22,7 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	private String telephoneNumber;
 
+	@Column
 	private String email;
 
 	@Column(nullable = false)
@@ -31,14 +32,15 @@ public class DoctorEntity {
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
 
-
 	// Jednokierunkowa relacja z Doctor do Address ( rodzic )
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "address_id")
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "address_id", unique = true, nullable = false)
+
 	private AddressEntity address;
 
 	// Dwukierunkowa relacja Doctor i Visit
-	@OneToMany(mappedBy = "doctor", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+
 	private Collection<VisitEntity> visits;
 
 	// Gettery i settery
@@ -104,5 +106,13 @@ public class DoctorEntity {
 
 	public void setAddress(AddressEntity address) {
 		this.address = address;
+	}
+
+	public Collection<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Collection<VisitEntity> visits) {
+		this.visits = visits;
 	}
 }

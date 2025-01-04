@@ -1,90 +1,142 @@
 package com.jpacourse.service;
 
+import com.jpacourse.dto.AddressTO;
+import com.jpacourse.dto.MedicalTreatmentTO;
 import com.jpacourse.dto.PatientTO;
-import com.jpacourse.dto.VisitTO;
+import com.jpacourse.dto.UpdatePatientTO;
+import com.jpacourse.dto.PatientVisitTO;
+import com.jpacourse.persistence.dao.DoctorDao;
+import com.jpacourse.persistence.dao.PatientDao;
+import com.jpacourse.persistence.dao.VisitDao;
+import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.enums.TreatmentType;
-import org.junit.jupiter.api.Test;
+import com.jpacourse.service.impl.PatientServiceImpl;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class PatientServiceTest {
 
     @Autowired
-    private PatientService patientService;
+    private PatientServiceImpl patientService;
+
+    @Autowired
+    private PatientDao patientDao;
+
+    @Autowired
+    private VisitDao visitDao;
+
+    @Autowired
+    private DoctorDao doctorDao;
 
     @Transactional
     @Test
-    public void testShouldRemovePatientAndCascadeVisits() {
+    public void testShouldFindPatientById() {
         // given
-        Long patientId = 1L;
-        PatientTO patientTO = patientService.getPatientById(patientId);
-
-        // sprawdzenie pacjenta i wizyt
-        assertThat(patientTO).isNotNull();
-        assertThat(patientTO.getVisits()).isNotEmpty();
-
-        int visitCountBefore = patientTO.getVisits().size();
-
+        Long patientId = 1L; // ID pacjenta z pliku data.sql
         // when
-        patientService.deletePatientById(patientId);
-
+        PatientTO patientTO = patientService.findById(patientId);
         // then
-        // usuniecie pacjenta
-        assertThatThrownBy(() -> patientService.getPatientById(patientId))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Patient with ID " + patientId + " not found");
+        assertThat(patientTO).isNotNull();
+        assertThat(patientTO.getId()).isEqualTo(patientId);
 
-        // usuniecie wizyt pacjenta
-        long remainingVisits = patientService.getAllPatients().stream()
-                .flatMap(patient -> patient.getVisits().stream())
-                .filter(visit -> visit.getPatientId().equals(patientId))
-                .count();
-        assertThat(remainingVisits).isZero();
+        assertThat(patientTO.getFirstName()).isEqualTo("Mariusz");
+        assertThat(patientTO.getLastName()).isEqualTo("Makowski");
+        assertThat(patientTO.getTelephoneNumber()).isEqualTo("+48 603 741 812");
+        assertThat(patientTO.getEmail()).isEqualTo("mariuszmakowski@tlen.pl");
+        assertThat(patientTO.getPatientNumber()).isEqualTo("P001");
+        assertThat(patientTO.getWeight()).isEqualTo(75); // Poprawione na weight
+        assertThat(patientTO.getDateOfBirth()).isEqualTo(LocalDate.of(1982, 4, 15));
+
+        AddressTO address = patientTO.getAddress();
+        assertThat(address).isNotNull();
+        assertThat(address.getId()).isEqualTo(1L);
+        assertThat(address.getCity()).isEqualTo("Malbork");
+        assertThat(address.getAddressLine1()).isEqualTo("ul. Wypoczynkowa 93");
+        assertThat(address.getAddressLine2()).isEqualTo("Mieszkanie 13");
+        assertThat(address.getPostalCode()).isEqualTo("82-200");
+
+        // Verify visits
+        Collection<PatientVisitTO> visits = patientTO.getVisits();
+        assertThat(visits).isNotNull();
+        assertThat(visits).hasSize(2); // Liczba wizyt w data.sql
+
+        PatientVisitTO firstVisit = visits.iterator().next();
+        assertThat(firstVisit).isNotNull();
+        assertThat(firstVisit.getId()).isNotNull();
+        assertThat(firstVisit.getTime()).isNotNull();
+        assertThat(firstVisit.getDoctorFirstName()).isNotNull();
+        assertThat(firstVisit.getDoctorLastName()).isNotNull();
     }
 
     @Transactional
     @Test
-    public void testShouldReturnPatientWithCorrectTO() {
+    public void testShouldUpdatePatient() {
         // given
         Long patientId = 1L;
+        PatientEntity existingPatient = patientDao.findOne(patientId);
+        assertThat(existingPatient).isNotNull();
+
+        UpdatePatientTO updatePatientTO = new UpdatePatientTO();
+        updatePatientTO.setId(patientId);
+        updatePatientTO.setFirstName("UpdatedFirstName");
+        updatePatientTO.setTelephoneNumber("123456789");
+        updatePatientTO.setEmail("updatedemail@example.com");
+        updatePatientTO.setPatientNumber("PN12345");
+        updatePatientTO.setDateOfBirth(LocalDate.of(1990, 1, 1));
+        updatePatientTO.setWeight(80); // Poprawione na weight
+
+        AddressTO addressTO = new AddressTO();
+        addressTO.setAddressLine1("Updated Address Line 1");
+        addressTO.setCity("Updated City");
+        updatePatientTO.setAddress(addressTO);
 
         // when
-        PatientTO patientTO = patientService.getPatientById(patientId);
+        patientService.update(updatePatientTO);
 
         // then
-        assertThat(patientTO).isNotNull();
-        assertThat(patientTO.getId()).isEqualTo(patientId);
-        assertThat(patientTO.getFirstName()).isEqualTo("Mariusz");
-        assertThat(patientTO.getLastName()).isEqualTo("Makowski");
-        assertThat(patientTO.getWeight()).isEqualTo(75);
+        PatientEntity updatedPatient = patientDao.findOne(patientId);
+        assertThat(updatedPatient).isNotNull();
+        assertThat(updatedPatient.getFirstName()).isEqualTo("UpdatedFirstName");
+        assertThat(updatedPatient.getTelephoneNumber()).isEqualTo("123456789");
+        assertThat(updatedPatient.getEmail()).isEqualTo("updatedemail@example.com");
+        assertThat(updatedPatient.getPatientNumber()).isEqualTo("PN12345");
+        assertThat(updatedPatient.getDateOfBirth()).isEqualTo(LocalDate.of(1990, 1, 1));
+        assertThat(updatedPatient.getWeight()).isEqualTo(80); // Poprawione na weight
+        assertThat(updatedPatient.getAddress()).isNotNull();
+        assertThat(updatedPatient.getAddress().getAddressLine1()).isEqualTo("Updated Address Line 1");
+        assertThat(updatedPatient.getAddress().getCity()).isEqualTo("Updated City");
+    }
 
-        // Weryfikacja wizyt
-        List<VisitTO> visits = patientTO.getVisits();
-        assertThat(visits).isNotEmpty();
-        assertThat(visits).hasSize(2); //
+    @Transactional
+    @Test
+    public void testShouldRemovePatient() {
+        // given
+        Long patientId = 1L;
+        assertThat(patientService.findById(patientId)).isNotNull();
+        assertThat(visitDao.findAllByPatientId(patientId)).isNotEmpty();
 
-        VisitTO firstVisit = visits.get(0);
-        assertThat(firstVisit.getTime()).isEqualTo(LocalDateTime.of(2024, 12, 2, 14, 0));
-        assertThat(firstVisit.getDoctorFirstName()).isEqualTo("Magdalena");
-        assertThat(firstVisit.getDoctorLastName()).isEqualTo("Kaczmarek");
-        assertThat(firstVisit.getTreatmentTypes()).containsExactlyInAnyOrder(
-                TreatmentType.Badanie.name()
-        );
+        long initialDoctorCount = doctorDao.count();
 
-        VisitTO secondVisit = visits.get(1);
-        assertThat(secondVisit.getTime()).isEqualTo(LocalDateTime.of(2024, 6, 10, 9, 11, 30));
-        assertThat(secondVisit.getDoctorFirstName()).isEqualTo("Magdalena");
-        assertThat(secondVisit.getDoctorLastName()).isEqualTo("Kaczmarek");
-        assertThat(secondVisit.getTreatmentTypes()).containsExactlyInAnyOrder(
-                TreatmentType.Badanie.name()
-        );
+        // when
+        patientService.deleteById(patientId);
+
+        // then
+        assertThat(patientService.findById(patientId)).isNull();
+        assertThat(visitDao.findAllByPatientId(patientId)).isEmpty();
+
+        long finalDoctorCount = doctorDao.count();
+        assertThat(finalDoctorCount).isEqualTo(initialDoctorCount);
     }
 }

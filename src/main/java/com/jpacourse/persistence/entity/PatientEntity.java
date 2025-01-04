@@ -1,8 +1,15 @@
 package com.jpacourse.persistence.entity;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENT")
@@ -21,6 +28,7 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private String telephoneNumber;
 
+	@Column
 	private String email;
 
 	@Column(nullable = false)
@@ -29,20 +37,18 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@Column(nullable = true)
 	private Integer weight;
 
-
 	// Jednokierunkowa relacja z Patient do Address ( rodzic )
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "address_id")
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "address_id", unique = true, nullable = false)
+
 	private AddressEntity address;
 
 	// Dwukierunkowa relacja Patient i Visit
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+
 	private Collection<VisitEntity> visits;
-
-
 
 	// Gettery i settery
 	public Long getId() {
@@ -101,6 +107,10 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public Integer getWeight() { return weight;	}
+
+	public void setWeight(Integer weight) { this.weight = weight; }
+
 	public AddressEntity getAddress() {
 		return address;
 	}
@@ -113,21 +123,7 @@ public class PatientEntity {
 		return visits;
 	}
 
-	public void addVisit(VisitEntity visit) {
-		visits.add(visit);
-		visit.setPatient(this);
-	}
-
-	public void removeVisit(VisitEntity visit) {
-		visits.remove(visit);
-		visit.setPatient(null);
-	}
-
-	public Integer getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Integer weight) {
-		this.weight = weight;
+	public void setVisits(Collection<VisitEntity> visits) {
+		this.visits = visits;
 	}
 }

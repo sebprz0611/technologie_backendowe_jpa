@@ -1,8 +1,9 @@
 package com.jpacourse.persistence.entity;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "VISIT")
@@ -12,27 +13,29 @@ public class VisitEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column
 	private String description;
 
 	@Column(nullable = false)
 	private LocalDateTime time;
 
-	// Dwukierunkowa relacja Visit i Patient
-	@ManyToOne
-	@JoinColumn(name = "patient_id")
-	private PatientEntity patient;
-
 	// Dwukierunkowa relacja Visit i Doctor
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "doctor_id")
+
 	private DoctorEntity doctor;
 
+	// Dwukierunkowa relacja Visit i Patient
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "patient_id")
+
+	private PatientEntity patient;
+
 	// Dwukierunkowa relacja Visit i MedicalTreatment
-	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private Collection<MedicalTreatmentEntity> medicalTreatments;
+	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL)
 
+	private Collection<MedicalTreatmentEntity> medicalTreatment;
 
-	// Gettery i settery
 	public Long getId() {
 		return id;
 	}
@@ -57,14 +60,6 @@ public class VisitEntity {
 		this.time = time;
 	}
 
-	public PatientEntity getPatient() {
-		return patient;
-	}
-
-	public void setPatient(PatientEntity patient) {
-		this.patient = patient;
-	}
-
 	public DoctorEntity getDoctor() {
 		return doctor;
 	}
@@ -73,17 +68,19 @@ public class VisitEntity {
 		this.doctor = doctor;
 	}
 
-	public Collection<MedicalTreatmentEntity> getMedicalTreatments() {
-		return medicalTreatments;
+	public PatientEntity getPatient() {
+		return patient;
 	}
 
-	public void addMedicalTreatment(MedicalTreatmentEntity medicalTreatment) {
-		medicalTreatments.add(medicalTreatment);
-		medicalTreatment.setVisit(this);
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
 	}
 
-	public void removeMedicalTreatment(MedicalTreatmentEntity medicalTreatment) {
-		medicalTreatments.remove(medicalTreatment);
-		medicalTreatment.setVisit(null);
+	public Collection<MedicalTreatmentEntity> getMedicalTreatment() {
+		return medicalTreatment;
+	}
+
+	public void setMedicalTreatment(Collection<MedicalTreatmentEntity> medicalTreatment) {
+		this.medicalTreatment = medicalTreatment;
 	}
 }

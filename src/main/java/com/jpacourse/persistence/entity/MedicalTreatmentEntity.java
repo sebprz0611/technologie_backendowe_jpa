@@ -20,7 +20,8 @@ public class MedicalTreatmentEntity {
 
 	// Dwukierunkowa relacja MedicalTreatment i Visit
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "visit_id")
+	@JoinColumn(name = "visit_id", nullable = false)
+
 	private VisitEntity visit;
 
 	// Gettery i settery

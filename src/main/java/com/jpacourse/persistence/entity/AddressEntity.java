@@ -5,23 +5,23 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ADDRESS")
 public class AddressEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@Column
 	private String city;
 
+	@Column
 	private String addressLine1;
 
+	@Column
 	private String addressLine2;
 
+	@Column
 	private String postalCode;
-
 
 	// Jednokierunkowa relacja od Doctor ( dziecko )
 	// Jednokierunkowa relacja od Patient ( dziecko )
-
 
 	// Gettery i settery
 	public Long getId() {
@@ -63,4 +63,5 @@ public class AddressEntity {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
+
 }
