@@ -56,7 +56,7 @@ public class PatientServiceTest {
         assertThat(patientTO.getTelephoneNumber()).isEqualTo("+48 603 741 812");
         assertThat(patientTO.getEmail()).isEqualTo("mariuszmakowski@tlen.pl");
         assertThat(patientTO.getPatientNumber()).isEqualTo("P001");
-        assertThat(patientTO.getWeight()).isEqualTo(75); // Poprawione na weight
+        assertThat(patientTO.getWeight()).isEqualTo(75);
         assertThat(patientTO.getDateOfBirth()).isEqualTo(LocalDate.of(1982, 4, 15));
 
         AddressTO address = patientTO.getAddress();
@@ -67,7 +67,7 @@ public class PatientServiceTest {
         assertThat(address.getAddressLine2()).isEqualTo("Mieszkanie 13");
         assertThat(address.getPostalCode()).isEqualTo("82-200");
 
-        // Verify visits
+
         Collection<PatientVisitTO> visits = patientTO.getVisits();
         assertThat(visits).isNotNull();
         assertThat(visits).hasSize(2); // Liczba wizyt w data.sql
@@ -95,7 +95,7 @@ public class PatientServiceTest {
         updatePatientTO.setEmail("updatedemail@example.com");
         updatePatientTO.setPatientNumber("PN12345");
         updatePatientTO.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        updatePatientTO.setWeight(80); // Poprawione na weight
+        updatePatientTO.setWeight(80); //
 
         AddressTO addressTO = new AddressTO();
         addressTO.setAddressLine1("Updated Address Line 1");
