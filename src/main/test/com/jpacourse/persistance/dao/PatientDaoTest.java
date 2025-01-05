@@ -28,7 +28,7 @@ public class PatientDaoTest {
 
     @Test
     @Transactional
-    public void testCustomSavePatient() {
+    public void testAddVisitToPatient() {
         // Given
         Long patientId = 1L; // ID pacjenta z data.sql
         Long doctorId = 2L; // ID lekarza z data.sql
@@ -39,7 +39,7 @@ public class PatientDaoTest {
         int initialVisitCount = patientBefore.getVisits().size();
 
         // When
-        patientDao.customSavePatient(patientId, doctorId, visitDate, visitDescription);
+        patientDao.addVisitToPatient(patientId, doctorId, visitDate, visitDescription);
 
         // Then
         PatientEntity patientAfter = patientDao.findOne(patientId);

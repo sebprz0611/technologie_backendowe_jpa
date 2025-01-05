@@ -19,7 +19,7 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     DoctorDao doctorDao;
 
     @Override
-    public void customSavePatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription) {
+    public void addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription) {
         PatientEntity patientEntity = findOne(patientId);
 
         if (patientEntity == null) {

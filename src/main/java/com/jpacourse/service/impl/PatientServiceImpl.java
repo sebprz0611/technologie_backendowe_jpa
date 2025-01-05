@@ -39,7 +39,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void addVisit(AddPatientVisitTO addPatientVisitTO) {
         LocalDateTime formattedDate = LocalDateTime.parse(addPatientVisitTO.getVisitDate());
-        patientDao.customSavePatient(addPatientVisitTO.getPatientId(), addPatientVisitTO.getDoctorId(), formattedDate, addPatientVisitTO.getVisitDescription());
+        patientDao.addVisitToPatient(addPatientVisitTO.getPatientId(), addPatientVisitTO.getDoctorId(), formattedDate, addPatientVisitTO.getVisitDescription());
     }
 
     @Override

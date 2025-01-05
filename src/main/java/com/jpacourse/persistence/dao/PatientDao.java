@@ -6,6 +6,6 @@ import java.time.LocalDateTime;
 
 public interface PatientDao extends Dao<PatientEntity, Long>
 {
-    void customSavePatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription);
+    void addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription);
 }
 
