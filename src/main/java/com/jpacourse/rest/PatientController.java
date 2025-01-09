@@ -7,6 +7,8 @@ import com.jpacourse.rest.exception.EntityNotFoundException;
 import com.jpacourse.service.PatientService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PatientController {
 
@@ -39,6 +41,11 @@ public class PatientController {
     @PutMapping("/patient")
     void updatePatient(@RequestBody final UpdatePatientTO updatePatientTO){
         patientService.update(updatePatientTO);
+    }
+
+    @GetMapping("/patients")
+    public List<PatientTO> getPatientsByLastName(@RequestParam String lastName) {
+        return patientService.findPatientsByLastName(lastName);
     }
 
 }

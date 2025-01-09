@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -55,5 +56,19 @@ public class PatientDaoTest {
         assertEquals(doctorId, newVisit.getDoctor().getId());
         assertEquals(visitDate, newVisit.getTime());
         assertEquals(visitDescription, newVisit.getDescription());
+    }
+
+    @Test
+    public void testFindByLastName() {
+        // Given
+
+        // When
+        List<PatientEntity> patients = patientDao.findByLastName("Makowski");
+
+        // Then
+        assertThat(patients).isNotNull();
+        assertThat(patients).hasSize(1); // Zgodnie z data.sql powinien być 1 pacjent
+        assertThat(patients.get(0).getFirstName()).isEqualTo("Mariusz");
+        assertThat(patients.get(0).getLastName()).isEqualTo("Makowski");
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -49,4 +51,13 @@ public class PatientServiceImpl implements PatientService {
 
         patientDao.update(entity);
     }
+
+    @Override
+    public List<PatientTO> findPatientsByLastName(String lastName) {
+        List<PatientEntity> entities = patientDao.findByLastName(lastName);
+        return entities.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
+    }
+
 }

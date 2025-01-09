@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao
@@ -45,5 +46,13 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         patientEntity.getVisits().add(visit);
 
         update(patientEntity);
+    }
+
+    @Override
+    public List<PatientEntity> findByLastName(String lastName) {
+        String query = "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName";
+        return entityManager.createQuery(query, PatientEntity.class)
+                .setParameter("lastName", lastName)
+                .getResultList();
     }
 }
