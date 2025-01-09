@@ -85,4 +85,21 @@ public class PatientDaoTest {
         assertThat(patients.get(0).getLastName()).isEqualTo("Makowski");
     }
 
+    @Test
+    public void testFindByWeightGreaterThan() {
+        // given
+        Integer weightThreshold = 70; // Waga do filtrowania pacjentów
+
+        // when
+        List<PatientEntity> patients = patientDao.findByWeightGreaterThan(weightThreshold);
+
+        // then
+        assertThat(patients).isNotNull();
+        assertThat(patients).isNotEmpty(); // Powinno być co najmniej kilku pacjentów
+        assertThat(patients).allMatch(patient -> patient.getWeight() > weightThreshold);
+
+        // optional
+        assertThat(patients).extracting("lastName").contains("Makowski", "Borkowski");
+    }
+
 }

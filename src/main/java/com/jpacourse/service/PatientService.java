@@ -19,5 +19,5 @@ public interface PatientService {
 
     List<PatientTO> findPatientsByVisitCountGreaterThan(Long visitCount);
 
-
+    List<PatientTO> findPatientsByWeightGreaterThan(Integer weight);
 }

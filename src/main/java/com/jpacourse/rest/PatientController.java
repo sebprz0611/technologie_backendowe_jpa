@@ -53,4 +53,8 @@ public class PatientController {
         return patientService.findPatientsByVisitCountGreaterThan(visitCount);
     }
 
+    @GetMapping("/patients/weight")
+    public List<PatientTO> getPatientsByWeightGreaterThan(@RequestParam Integer weight) {
+        return patientService.findPatientsByWeightGreaterThan(weight);
+    }
 }

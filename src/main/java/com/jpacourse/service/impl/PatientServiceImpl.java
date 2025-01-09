@@ -68,4 +68,11 @@ public class PatientServiceImpl implements PatientService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PatientTO> findPatientsByWeightGreaterThan(Integer weight) {
+        List<PatientEntity> patients = patientDao.findByWeightGreaterThan(weight);
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
+    }
 }
