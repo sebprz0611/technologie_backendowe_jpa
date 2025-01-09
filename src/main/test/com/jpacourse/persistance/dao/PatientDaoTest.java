@@ -1,7 +1,6 @@
 package com.jpacourse.persistance.dao;
 
-import com.jpacourse.persistence.dao.impl.DoctorDaoImpl;
-import com.jpacourse.persistence.dao.impl.PatientDaoImpl;
+import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import org.junit.Test;
@@ -24,10 +23,7 @@ import static org.junit.Assert.assertThrows;
 public class PatientDaoTest {
 
     @Autowired
-    PatientDaoImpl patientDao;
-
-    @Autowired
-    DoctorDaoImpl doctorDao;
+    PatientDao patientDao;
 
     @Test
     @Transactional
