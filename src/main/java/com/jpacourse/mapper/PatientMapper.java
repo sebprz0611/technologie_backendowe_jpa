@@ -3,7 +3,7 @@ package com.jpacourse.mapper;
 import com.jpacourse.dto.AddressTO;
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.dto.UpdatePatientTO;
-import com.jpacourse.dto.PatientVisitTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.entity.AddressEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 
@@ -31,7 +31,7 @@ public class PatientMapper {
         AddressTO addressTO = AddressMapper.mapToTO(patientEntity.getAddress());
         patientTO.setAddress(addressTO);
 
-        List<PatientVisitTO> visits = patientEntity
+        List<VisitTO> visits = patientEntity
                 .getVisits()
                 .stream()
                 .map(VisitMapper::mapToPatientVisitTO)

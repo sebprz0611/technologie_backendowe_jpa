@@ -1,6 +1,6 @@
 package com.jpacourse.mapper;
 
-import com.jpacourse.dto.PatientVisitTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 
@@ -12,13 +12,13 @@ public class VisitMapper {
 
     }
 
-    public static PatientVisitTO mapToPatientVisitTO(final VisitEntity visitEntity){
+    public static VisitTO mapToPatientVisitTO(final VisitEntity visitEntity){
         if (visitEntity == null)
         {
             return null;
         }
         DoctorEntity doctorEntity = visitEntity.getDoctor();
-        final PatientVisitTO patientVisitTO = new PatientVisitTO();
+        final VisitTO patientVisitTO = new VisitTO();
 
         patientVisitTO.setId(visitEntity.getId());
         patientVisitTO.setDoctorFirstName(doctorEntity.getFirstName());

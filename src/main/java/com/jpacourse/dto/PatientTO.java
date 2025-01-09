@@ -23,7 +23,7 @@ public class PatientTO implements Serializable {
 
     private AddressTO address;
 
-    private Collection<PatientVisitTO> visits;
+    private Collection<VisitTO> visits;
 
     public Long getId() {
         return id;
@@ -89,11 +89,11 @@ public class PatientTO implements Serializable {
         this.address = address;
     }
 
-    public Collection<PatientVisitTO> getVisits() {
+    public Collection<VisitTO> getVisits() {
         return visits;
     }
 
-    public void setVisits(Collection<PatientVisitTO> visits) {
+    public void setVisits(Collection<VisitTO> visits) {
         this.visits = visits;
     }
 

@@ -3,7 +3,7 @@ package com.jpacourse.service;
 import com.jpacourse.dto.AddressTO;
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.dto.UpdatePatientTO;
-import com.jpacourse.dto.PatientVisitTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.dao.DoctorDao;
 import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.dao.VisitDao;
@@ -64,11 +64,11 @@ public class PatientServiceTest {
         assertThat(address.getPostalCode()).isEqualTo("82-200");
 
 
-        Collection<PatientVisitTO> visits = patientTO.getVisits();
+        Collection<VisitTO> visits = patientTO.getVisits();
         assertThat(visits).isNotNull();
         assertThat(visits).hasSize(2); // Liczba wizyt w data.sql
 
-        PatientVisitTO firstVisit = visits.iterator().next();
+        VisitTO firstVisit = visits.iterator().next();
         assertThat(firstVisit).isNotNull();
         assertThat(firstVisit.getId()).isNotNull();
         assertThat(firstVisit.getTime()).isNotNull();

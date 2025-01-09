@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-public class PatientVisitTO implements Serializable {
+public class VisitTO implements Serializable {
+
     private Long id;
 
     private LocalDateTime time;

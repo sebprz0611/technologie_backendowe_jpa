@@ -1,6 +1,6 @@
 package com.jpacourse.rest;
 
-import com.jpacourse.dto.PatientVisitTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class VisitController {
     }
 
     @GetMapping("/visits")
-    public List<PatientVisitTO> getVisitsByPatientId(@RequestParam Long patientId) {
+    public List<VisitTO> getVisitsByPatientId(@RequestParam Long patientId) {
         return visitService.findVisitsByPatientId(patientId);
     }
 }
