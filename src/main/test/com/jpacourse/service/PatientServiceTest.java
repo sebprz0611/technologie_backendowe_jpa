@@ -1,7 +1,6 @@
 package com.jpacourse.service;
 
 import com.jpacourse.dto.AddressTO;
-import com.jpacourse.dto.MedicalTreatmentTO;
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.dto.UpdatePatientTO;
 import com.jpacourse.dto.PatientVisitTO;
@@ -9,8 +8,6 @@ import com.jpacourse.persistence.dao.DoctorDao;
 import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.PatientEntity;
-import com.jpacourse.persistence.enums.TreatmentType;
-import com.jpacourse.service.impl.PatientServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -125,7 +121,7 @@ public class PatientServiceTest {
         // given
         Long patientId = 1L;
         assertThat(patientService.findById(patientId)).isNotNull();
-        assertThat(visitDao.findAllByPatientId(patientId)).isNotEmpty();
+        assertThat(visitDao.findByPatientId(patientId)).isNotEmpty();
 
         long initialDoctorCount = doctorDao.count();
 
@@ -134,7 +130,7 @@ public class PatientServiceTest {
 
         // then
         assertThat(patientService.findById(patientId)).isNull();
-        assertThat(visitDao.findAllByPatientId(patientId)).isEmpty();
+        assertThat(visitDao.findByPatientId(patientId)).isEmpty();
 
         long finalDoctorCount = doctorDao.count();
         assertThat(finalDoctorCount).isEqualTo(initialDoctorCount);

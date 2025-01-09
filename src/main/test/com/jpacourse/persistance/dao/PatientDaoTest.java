@@ -30,7 +30,7 @@ public class PatientDaoTest {
     @Test
     @Transactional
     public void testAddVisitToPatient() {
-        // Given
+        // given
         Long patientId = 1L; // ID pacjenta z data.sql
         Long doctorId = 2L; // ID lekarza z data.sql
         LocalDateTime visitDate = LocalDateTime.of(2025, 12, 12, 10, 10);
@@ -39,10 +39,10 @@ public class PatientDaoTest {
         PatientEntity patientBefore = patientDao.findOne(patientId);
         int initialVisitCount = patientBefore.getVisits().size();
 
-        // When
+        // when
         patientDao.addVisitToPatient(patientId, doctorId, visitDate, visitDescription);
 
-        // Then
+        // then
         PatientEntity patientAfter = patientDao.findOne(patientId);
         assertThat(patientAfter).isNotNull();
         assertEquals(initialVisitCount + 1, patientAfter.getVisits().size());
@@ -60,12 +60,12 @@ public class PatientDaoTest {
 
     @Test
     public void testFindByLastName() {
-        // Given
+        // given
 
-        // When
+        // when
         List<PatientEntity> patients = patientDao.findByLastName("Makowski");
 
-        // Then
+        // then
         assertThat(patients).isNotNull();
         assertThat(patients).hasSize(1); // Zgodnie z data.sql powinien być 1 pacjent
         assertThat(patients.get(0).getFirstName()).isEqualTo("Mariusz");

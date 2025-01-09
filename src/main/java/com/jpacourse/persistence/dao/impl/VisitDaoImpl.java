@@ -4,17 +4,21 @@ import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.VisitEntity;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements VisitDao {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    public List<VisitEntity> findAllByPatientId(Long patientId) {
-        return findAll()
-                .stream()
-                .filter(visit -> visit.getPatient().getId().equals(patientId))
-                .collect(Collectors.toList());
+    public List<VisitEntity> findByPatientId(Long patientId) {
+        String query = "SELECT v FROM VisitEntity v WHERE v.patient.id = :patientId";
+        return entityManager.createQuery(query, VisitEntity.class)
+                .setParameter("patientId", patientId)
+                .getResultList();
     }
 }
