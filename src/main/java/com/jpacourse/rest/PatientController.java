@@ -48,4 +48,9 @@ public class PatientController {
         return patientService.findPatientsByLastName(lastName);
     }
 
+    @GetMapping("/patients/visit-count")
+    public List<PatientTO> getPatientsByVisitCountGreaterThan(@RequestParam Long visitCount) {
+        return patientService.findPatientsByVisitCountGreaterThan(visitCount);
+    }
+
 }

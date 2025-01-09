@@ -71,4 +71,18 @@ public class PatientDaoTest {
         assertThat(patients.get(0).getFirstName()).isEqualTo("Mariusz");
         assertThat(patients.get(0).getLastName()).isEqualTo("Makowski");
     }
+
+    @Test
+    public void testFindPatientsByVisitCountGreaterThan() {
+        // given
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsByVisitCountGreaterThan(1L);
+
+        // then
+        assertThat(patients).isNotNull();
+        assertThat(patients).hasSize(1);
+        assertThat(patients.get(0).getLastName()).isEqualTo("Makowski");
+    }
+
 }

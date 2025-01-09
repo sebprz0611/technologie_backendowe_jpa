@@ -17,4 +17,7 @@ public interface PatientService {
 
     List<PatientTO> findPatientsByLastName(String lastName);
 
+    List<PatientTO> findPatientsByVisitCountGreaterThan(Long visitCount);
+
+
 }

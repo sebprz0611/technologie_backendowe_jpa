@@ -60,4 +60,12 @@ public class PatientServiceImpl implements PatientService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PatientTO> findPatientsByVisitCountGreaterThan(Long visitCount) {
+        List<PatientEntity> patients = patientDao.findPatientsByVisitCountGreaterThan(visitCount);
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
+    }
+
 }
