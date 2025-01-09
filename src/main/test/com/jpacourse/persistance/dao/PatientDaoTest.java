@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -100,6 +102,40 @@ public class PatientDaoTest {
 
         // optional
         assertThat(patients).extracting("lastName").contains("Makowski", "Borkowski");
+    }
+
+    @Test
+    @Transactional
+    public void testOptimisticLocking() throws InterruptedException {
+        // given
+        Long patientId = 2L; // Pacjent załadowany z data.sql
+
+        Thread t1 = new Thread(() -> {
+            PatientEntity patient1 = patientDao.findOne(patientId); // Pobiera pacjenta
+            try {
+                Thread.sleep(6000); // Symuluje opóźnienie
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            patient1.setTelephoneNumber("123123123"); // Zmiana numeru telefonu
+
+            // then
+            assertThrows(ObjectOptimisticLockingFailureException.class, () -> {
+                patientDao.update(patient1); // Próba aktualizacji
+            });
+        });
+
+        Thread t2 = new Thread(() -> {
+            PatientEntity patient2 = patientDao.findOne(patientId); // Pobiera pacjenta
+            patient2.setTelephoneNumber("321321321"); // Zmiana numeru telefonu
+            patientDao.update(patient2); // Zapisuje zmiany
+        });
+
+        // when
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
     }
 
 }

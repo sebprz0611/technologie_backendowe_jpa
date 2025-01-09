@@ -39,6 +39,10 @@ public class PatientEntity {
 
 	private Integer weight;
 
+	@Version
+	private Integer version;
+
+
 	// Jednokierunkowa relacja z Patient do Address ( rodzic )
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name = "address_id", unique = true, nullable = false)
